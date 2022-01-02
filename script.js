@@ -1,4 +1,6 @@
+let cart = [];
 let modalQt = 1;
+let modalKey = 0;
 
 const dQuery = (el) => document.querySelector(el);
 const dAll = (el) =>document.querySelectorAll(el);
@@ -17,6 +19,7 @@ pizzaJson.map((item, index)=>{
         event.preventDefault();
         let key = event.target.closest('.pizza-item').getAttribute('data-key');
         modalQt = 1;
+        modalKey = key;
 
         dQuery('.pizzaBig img').src = pizzaJson[key].img;
         dQuery('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
@@ -76,6 +79,28 @@ dAll('.pizzaInfo--size').forEach((size, sizeIndex)=>{
         dQuery('.pizzaInfo--size.selected').classList.remove('selected');
         size.classList.add('selected');
     })
-    
-
 });
+
+//Adicionando ao carrinho
+
+dQuery('.pizzaInfo--addButton').addEventListener('click', ()=>{
+    //Qual a pizza, tamanho e quantas pizzas serão adicionadas.
+    let size = parseInt(dQuery('.pizzaInfo--size.selected').getAttribute('data-key'));
+   
+    let identifier = pizzaJson[modalKey].id+ '@' +size;
+
+    let key = cart.findIndex((item)=> item.identifier == identifier);
+
+    if(key > -1){
+        cart[key].qt += modalQt;
+    } else {
+        cart.push({
+            identifier,
+            id: pizzaJson[modalKey].id,
+            size,
+            qt:modalQt
+        });
+    }
+
+    closeModal();
+})
