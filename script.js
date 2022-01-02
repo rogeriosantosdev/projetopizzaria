@@ -105,7 +105,20 @@ dQuery('.pizzaInfo--addButton').addEventListener('click', ()=>{
     closeModal();
 });
 
+dQuery('.menu-openner').addEventListener('click', ()=>{
+    if(cart.length > 0){
+        dQuery('aside').style.left = '0';
+    }
+});
+
+dQuery('.menu-closer').addEventListener('click', ()=>{
+    dQuery('aside').style.left = '100vw';
+});
+
+
 function updateCart(){
+    dQuery('.menu-openner span').innerHTML = cart.length;
+
     if(cart.length > 0){
         dQuery('aside').classList.add('show');
         dQuery('.cart').innerHTML = '';
@@ -167,5 +180,6 @@ function updateCart(){
         }
     } else {
         dQuery('aside').classList.remove('show');
+        dQuery('aside').style.left = '100vw';
     }
 }
